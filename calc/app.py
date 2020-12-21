@@ -41,3 +41,18 @@ def all_funcs(func):
     else: 
         return str(div(a,b))
 
+# via dictionary:
+
+# funcs = {
+#     'add': add,
+#     'sub': sub,
+#     'mult': mult,
+#     'div': div,
+# }
+
+# @app.route('/math/<func>')
+# def all_funcs(func):
+#     a = int(request.args['a'])
+#     b = int(request.args['b'])
+
+#     return funcs[func](a,b)
