@@ -1,8 +1,10 @@
 # Put your app in here.
-from flask import Flask
+from flask import Flask, request
 from operations import add, sub, mult, div
 
 app = Flask(__name__)
+
+
 @app.route('/add')
 def add_function():
     a = int(request.args['a'])
