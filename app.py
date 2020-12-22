@@ -1,3 +1,11 @@
+from flask import Flask, request, render_template
+from flask_debugtoolbar import DebugToolbarExtension
+from random import randint
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secretkey'
+debug = DebugToolbarExtension(app)
+
 @app.route('/my/route', methods =["POST"])
 def handle_post_to_my_route():
     ...
@@ -25,3 +33,14 @@ def save_comment():
         <li>Comment: {comment}</li>
     </ul>
     """
+
+@app.route('/hello')
+def index():
+    """ return homepage """
+    return render_template('index.html')
+
+@app.route('/lucky')
+def show_lucky_num():
+    """ example of simple dynamic template """
+    num = randint(1,20)
+    return render_template('lucky.html',lucky_num = num)
