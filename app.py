@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 from flask_debugtoolbar import DebugToolbarExtension
 from random import randint, choice, sample
 
@@ -21,6 +21,11 @@ def add_comment_form():
             <button>Submit</button>
         </form>
         """
+
+@app.route('/old-home-page')
+def redirect_to_home():
+    """ re-direct to new home page """
+    return redirect('/')
 
 @app.route('/add-comment', methods=["POST"])
 def save_comment():
@@ -68,7 +73,13 @@ def greeting_two():
     nice_things = sample(COMPLIMENTS, 3)
     return render_template('greet_2.html', username = username,wantscompliments = wantscompliments, compliments=nice_things )
 
-
 @app.route('/spell/<word>')
 def spell_word(word):
     return render_template('spellword.html', word = word)
+
+MOVIES = ['Amadeus', 'Chicken Run', 'Dances with Wolves']
+
+@app.route('/movies')
+def show_all_movies():
+    """ show list of all movies in fake DB """
+    return render_template('movies.html', movies= MOVIES)
