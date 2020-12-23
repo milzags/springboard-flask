@@ -4,12 +4,18 @@ from random import randint, choice, sample
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 @app.route('/my/route', methods =["POST"])
 def handle_post_to_my_route():
     ...
     pass
+
+@app.route('/')
+def home_route():
+    return """ <h1>Welcome to the Home Page</h1>"""
+
 
 @app.route('/add-comment')
 def add_comment_form():
@@ -77,9 +83,16 @@ def greeting_two():
 def spell_word(word):
     return render_template('spellword.html', word = word)
 
-MOVIES = ['Amadeus', 'Chicken Run', 'Dances with Wolves']
+MOVIES = ['Amadeus', 'Chicken Run', 'Dances with Wolves','Bloodsport']
 
 @app.route('/movies')
 def show_all_movies():
     """ show list of all movies in fake DB """
     return render_template('movies.html', movies= MOVIES)
+
+@app.route('/movies/new', methods=["POST"])
+def add_movie():
+    title = request.form['title']
+    #add to pretend DB
+    MOVIES.append(title)
+    return redirect('/movies')

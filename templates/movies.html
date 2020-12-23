@@ -4,3 +4,8 @@
     <li>{{movie}}</li>
     {% endfor %}
 </ul>
+
+<form action="/movies/new" method="POST">
+    <input type="text" placeholder="Movie Title" name="title">
+    <button>Add Movie</button>
+</form>
