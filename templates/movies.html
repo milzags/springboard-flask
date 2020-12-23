@@ -1,4 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Movies List{% endblock %}
+
+{% block content %} 
+
 <h1>All Movies</h1>
+
 <ul>
     {% for movie in movies %}
     <li>{{movie}}</li>
@@ -9,3 +16,5 @@
     <input type="text" placeholder="Movie Title" name="title">
     <button>Add Movie</button>
 </form>
+
+{% endblock %}

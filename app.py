@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect
+from flask import Flask, request, render_template, redirect, flash, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from random import randint, choice, sample
 
@@ -14,7 +14,7 @@ def handle_post_to_my_route():
 
 @app.route('/')
 def home_route():
-    return """ <h1>Welcome to the Home Page</h1>"""
+    return render_template('home.html')
 
 
 @app.route('/add-comment')
@@ -28,9 +28,10 @@ def add_comment_form():
         </form>
         """
 
-@app.route('/old-home-page')
+@app.route('/old')
 def redirect_to_home():
     """ re-direct to new home page """
+    flash('That page has moved! This is the new home page')
     return redirect('/')
 
 @app.route('/add-comment', methods=["POST"])
@@ -83,16 +84,25 @@ def greeting_two():
 def spell_word(word):
     return render_template('spellword.html', word = word)
 
-MOVIES = ['Amadeus', 'Chicken Run', 'Dances with Wolves','Bloodsport']
+MOVIES = {'Amadeus', 'Chicken Run', 'Dances with Wolves','Bloodsport'}
 
 @app.route('/movies')
 def show_all_movies():
     """ show list of all movies in fake DB """
-    return render_template('movies.html', movies= MOVIES)
+    return render_template('movies.html', movies=MOVIES)
 
 @app.route('/movies/new', methods=["POST"])
 def add_movie():
     title = request.form['title']
     #add to pretend DB
-    MOVIES.append(title)
-    return redirect('/movies')
+    if title in MOVIES:
+        flash('Movie already exists, cannot add','error')
+    else:
+        MOVIES.add(title)
+        #flash message - movie created
+        flash('Added your movie','success')
+    return redirect('/movies') 
+
+@app.route('/movies/json')
+def get_movies_json():
+    return jsonify(list(MOVIES))
